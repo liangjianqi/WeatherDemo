@@ -48,6 +48,8 @@ public class CityActivity extends AppCompatActivity {
 
         if (id == R.id.action_search) {
 
+
+            
             return true;
         }
 
