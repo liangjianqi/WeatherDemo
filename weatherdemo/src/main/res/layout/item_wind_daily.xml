@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cn.cnxad.weatherdemo.entity.WeatherBean.HeWeatherdataserviceBean.DailyForecastBean"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical"
+                  android:orientation="horizontal"
+                  android:padding="10dp">
+
+        <TextView
+            style="@style/Text_Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            app:daily_time="@{item.date}"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                app:cond_icon="@{item.cond.code_d}"/>
+
+            <TextView
+                style="@style/Text_Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.cond.txt_d}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                app:cond_icon="@{item.cond.code_n}"/>
+
+            <TextView
+                style="@style/Text_Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.cond.txt_n}"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/Text_Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3"
+            android:gravity="right"
+            app:now_tmp="@{item.tmp.max}"/>
+
+        <TextView
+            style="@style/Text_Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:textColor="@color/md_light_blue_500"
+            app:now_tmp="@{item.tmp.min}"/>
+
+    </LinearLayout>
+
+</layout>

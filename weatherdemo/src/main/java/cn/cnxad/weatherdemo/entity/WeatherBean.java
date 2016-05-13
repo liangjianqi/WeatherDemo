@@ -3,6 +3,7 @@ package cn.cnxad.weatherdemo.entity;
 import android.databinding.BindingAdapter;
 import android.text.Html;
 import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import cn.cnxad.weatherdemo.R;
 import cn.cnxad.weatherdemo.utils.DateUtil;
 import cn.cnxad.weatherdemo.utils.JGlideLoader;
 
@@ -24,13 +26,13 @@ public class WeatherBean {
     @BindingAdapter({"city_basic"})
     public static void setBasic(TextView textView, HeWeatherdataserviceBean.BasicBean basic) {
         if (basic != null) {
-            String fTime = DateUtil.getFormatTime(basic.getUpdate().getLoc(), "HH:mm");
+            String fTime = DateUtil.getFormatTime(basic.getUpdate().getLoc(), "yyyy-MM-dd HH:mm", "HH:mm");
             StringBuffer sb = new StringBuffer(100);
             sb.append(basic.getCity())
                     .append("<br>")
                     .append("<small><small><small>")
                     .append(fTime)
-                    .append("  CTS")
+                    .append("  发布")
                     .append("</small></small></small>");
 
             textView.setText(Html.fromHtml(sb.toString()));
@@ -57,7 +59,7 @@ public class WeatherBean {
         }
     }
 
-    @BindingAdapter({"image"})
+    @BindingAdapter({"cond_icon"})
     public static void setCond(ImageView imageView, String url) {
         String imageUrl = "http://files.heweather.com/cond_icon/" + url + ".png";
         JGlideLoader.load(imageView.getContext(), imageView, imageUrl);
@@ -66,7 +68,7 @@ public class WeatherBean {
     @BindingAdapter({"now_wind"})
     public static void setWind(RadioButton radioButton, HeWeatherdataserviceBean.NowBean.WindBean windBean) {
         if (windBean != null) {
-            radioButton.setText(windBean.getDir() + "  风力:" + windBean.getSc() + "级");
+            radioButton.setText(windBean.getDir() + " 风力" + windBean.getSc() + "级");
         }
     }
 
@@ -74,6 +76,30 @@ public class WeatherBean {
     public static void setHum(RadioButton radioButton, String value) {
         if (!TextUtils.isEmpty(value)) {
             radioButton.setText("湿度" + value + "%");
+        }
+    }
+
+    @BindingAdapter({"daily_time"})
+    public static void setDailyTime(TextView textView, String date) {
+        if (!TextUtils.isEmpty(date)) {
+            String time = DateUtil.getWeek(date, "yyyy-MM-dd");
+            textView.setText(time);
+        }
+    }
+
+    @BindingAdapter({"hour_time"})
+    public static void setHourTime(TextView textView, String date) {
+        if (!TextUtils.isEmpty(date)) {
+            String time = DateUtil.getFormatTime(date, "yyyy-MM-dd HH:mm", "HH:mm");
+            textView.setText(time);
+        }
+    }
+
+    @BindingAdapter({"hour_icon"})
+    public static void setHourTime(ImageView imageView, HeWeatherdataserviceBean.HourlyForecastBean item) {
+        if (item != null) {
+            String imageUrl = "http://files.heweather.com/cond_icon/100.png";
+            JGlideLoader.load(imageView.getContext(), imageView, imageUrl);
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,7 +19,7 @@
                   android:paddingRight="@dimen/activity_horizontal_margin"
                   android:paddingTop="@dimen/activity_vertical_margin"
                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                  tools:context=".ui.MainActivity"
+                  tools:context=".ui.activity.MainActivity"
                   tools:showIn="@layout/app_bar_main">
 
         <TextView
@@ -30,85 +30,19 @@
             android:background="@drawable/bg_pm25"
             app:now_pm="@{weather.aqi}"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <include
+            layout="@layout/include_main_now"
+            bind:weather="@{weather}"/>
+
+        <include
+            layout="@layout/include_main_forecast"/>
+
+        <include
+            layout="@layout/include_main_wind"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="320dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:image="@{weather.now.cond.code}"/>
-
-            <TextView
-                style="@style/Text_Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@{weather.now.cond.txt}"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/md_white_1000"
-            android:textSize="114sp"
-            app:now_tmp="@{weather.now.tmp}"/>
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <RadioButton
-                style="@style/Radio_Tmp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/arrow_maxc"
-                android:text="24"/>
-
-            <RadioButton
-                style="@style/Radio_Tmp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:drawableLeft="@mipmap/arrow_minc"
-                android:text="24"/>
-
-        </RadioGroup>
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                style="@style/Radio_Tmp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:drawableLeft="@mipmap/wind_northwest2"
-                app:now_wind="@{weather.now.wind}"/>
-
-            <RadioButton
-                style="@style/Radio_Tmp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:drawableLeft="@mipmap/humidity1"
-                app:now_hum="@{weather.now.hum}"/>
-
-        </RadioGroup>
-
-
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            bind:wind="@{weather.now}"/>
 
 
     </LinearLayout>
