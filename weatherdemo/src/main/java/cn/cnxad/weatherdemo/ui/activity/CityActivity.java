@@ -1,7 +1,10 @@
 package cn.cnxad.weatherdemo.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -11,11 +14,13 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.cnxad.weatherdemo.R;
+import cn.cnxad.weatherdemo.view.RotationView;
 
 public class CityActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     private SearchView mSearchView;
 
     @Override
@@ -29,9 +34,11 @@ public class CityActivity extends AppCompatActivity {
 
     private void initView() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
     }
 
     @Override
@@ -46,13 +53,15 @@ public class CityActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_search) {
+        if (id == android.R.id.home) {
+            onBackPressed();
+        } else if (id == R.id.action_search) {
 
 
-            
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }

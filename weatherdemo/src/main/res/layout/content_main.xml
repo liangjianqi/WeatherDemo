@@ -22,14 +22,6 @@
                   tools:context=".ui.activity.MainActivity"
                   tools:showIn="@layout/app_bar_main">
 
-        <TextView
-            style="@style/Text_Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|start"
-            android:background="@drawable/bg_pm25"
-            app:now_pm="@{weather.aqi}"/>
-
         <include
             layout="@layout/include_main_now"
             bind:weather="@{weather}"/>

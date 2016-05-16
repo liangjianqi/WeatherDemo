@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 
@@ -26,6 +28,7 @@ import com.nispok.snackbar.listeners.ActionClickListener;
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.cnxad.weatherdemo.Constant;
 import cn.cnxad.weatherdemo.R;
 import cn.cnxad.weatherdemo.databinding.ActivityMainBinding;
@@ -37,7 +40,9 @@ import cn.cnxad.weatherdemo.persenter.WeatherPersenter;
 import cn.cnxad.weatherdemo.ui.adapter.WindDailyAdapter;
 import cn.cnxad.weatherdemo.ui.adapter.WindHourAdapter;
 import cn.cnxad.weatherdemo.utils.FullyLinearLayoutManager;
+import cn.cnxad.weatherdemo.utils.ScreenUtils;
 import cn.cnxad.weatherdemo.view.DashLineItemDecoration;
+import cn.cnxad.weatherdemo.view.RotationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +65,12 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerHour;
 
     private static int EXTRA_REQUEST_CODE_CITY = 100;
+    @Bind(R.id.rotationview)
+    RotationView rotationview;
+    @Bind(R.id.view_main_now_content)
+    View viewMainNowContent;
+    @Bind(R.id.layout_main_now)
+    LinearLayout layoutMainNow;
     private VolleyManager mVolleyManager;
     //背景透明度
     private int mAlpha = 1;
@@ -105,6 +116,12 @@ public class MainActivity extends AppCompatActivity
 
         setTranslate();
 
+        int screenHeight = ScreenUtils.getScreenHeight(this);
+        ViewGroup.LayoutParams params = viewMainNowContent.getLayoutParams();
+        params.height = screenHeight * 55 / 100;
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        viewMainNowContent.setLayoutParams(params);
+
         hourAdapter = new WindHourAdapter(this);
         FullyLinearLayoutManager hourLayoutManager = new FullyLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerHour.setLayoutManager(hourLayoutManager);
@@ -118,6 +135,8 @@ public class MainActivity extends AppCompatActivity
         recyclerDay.setHasFixedSize(true);
         recyclerDay.setAdapter(dailyAdapter);
         recyclerDay.addItemDecoration(new DashLineItemDecoration());
+
+        rotationview.init();
 
     }
 
@@ -166,14 +185,29 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 LogUtils.e(error);
-                SnackbarManager.show(Snackbar.with(getApplicationContext()).text("网络仿问出错,请重试").duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionLabel("重试").actionListener(new ActionClickListener() {
-                    @Override
-                    public void onActionClicked(Snackbar snackbar) {
-                        requestDta(cityId);
-                    }
-                }), MainActivity.this);
+                SnackbarManager.show(Snackbar.with(getApplicationContext()).text("网络仿问出错,请重试").duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                        .actionLabel("重试").actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                requestDta(cityId);
+                            }
+                        }), MainActivity.this);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        rotationview.startRotate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        rotationview.stopRotate();
     }
 
     @Override
@@ -230,4 +264,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @OnClick({R.id.layout_main_now})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.layout_main_now:
+                int isVisible = viewMainNowContent.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+                viewMainNowContent.setVisibility(isVisible);
+                break;
+        }
+    }
 }

@@ -28,6 +28,11 @@
             android:layout_marginTop="10dp"
             android:background="@color/md_white_1000"/>
 
+        <cn.cnxad.weatherdemo.view.RotationView
+            android:id="@+id/rotationview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </layout>
